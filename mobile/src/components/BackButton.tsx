@@ -8,6 +8,7 @@ export function BackButton() {
 
     return (
         <TouchableOpacity
+            activeOpacity={0.7}
             onPress={goBack}
         >
             <Feather
