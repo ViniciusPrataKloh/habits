@@ -1,5 +1,6 @@
 import { Header } from "./components/Header";
 import { Summary } from "./components/Summary";
+import "./lib/dayjs";
 import "./styles/global.css";
 
 export function App() {

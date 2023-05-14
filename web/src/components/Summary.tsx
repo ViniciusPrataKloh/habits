@@ -1,14 +1,31 @@
+import dayjs from "dayjs";
+import { useEffect, useState } from "react";
+import { api } from "../lib/axios";
 import { generateRangeDays } from "../utils/generate-range-days";
-import { HabitDay } from "./Habits";
+import { HabitsDay } from "./HabitsDay";
 
 const weedDays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
 const summaryDates = generateRangeDays();
 
 const minimumSummaryDatesSize = 18 * 7;
 const amountDaysToFill = minimumSummaryDatesSize - summaryDates.length;
-console.log(amountDaysToFill);
+
+type Summary = Array<{
+    id: string;
+    date: string;
+    amount: number;
+    completed: number;
+}>;
 
 export function Summary() {
+    const [summary, setSummary] = useState<Summary>([]);
+
+    useEffect(() => {
+        api.get('summary').then(response => {
+            setSummary(response.data);
+        });
+    }, []);
+
     return (
         <div className="w-full flex">
 
@@ -23,12 +40,17 @@ export function Summary() {
             </div>
 
             <div className="grid grid-rows-7 grid-flow-col gap-3">
-                {summaryDates.map((summaryDate) => {
+                {summaryDates.map((date) => {
+                    const dayInSummary = summary.find(day => {
+                        return dayjs(date).isSame(day.date, 'day');
+                    });
+
                     return (
-                        <HabitDay
-                            key={summaryDate.toString()}
-                            completed={Math.round(Math.random() * 5)}
-                            amount={5}
+                        <HabitsDay
+                            key={date.toString()}
+                            completed={dayInSummary?.completed}
+                            amount={dayInSummary?.amount}
+                            date={date}
                         />
                     )
                 })}

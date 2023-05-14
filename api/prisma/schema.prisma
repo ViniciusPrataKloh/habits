@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator erd {
   provider = "prisma-erd-generator"
 }
@@ -48,7 +45,7 @@ model Day {
 }
 
 model DayHabit {
-  is String @id @default(uuid())
+  id String @id @default(uuid())
 
   day_id   String
   habit_id String
