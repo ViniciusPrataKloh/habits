@@ -16,6 +16,7 @@ export async function Routes(app: FastifyInstance) {
         const today = dayjs().startOf('day').toDate();
 
         console.log(title);
+        console.log(weekDays);
 
         await prisma.habit.create({
             data: {
@@ -30,6 +31,7 @@ export async function Routes(app: FastifyInstance) {
                 }
             }
         })
+        console.log("passou!");
     })
 
     app.get('/day', async (request) => {
